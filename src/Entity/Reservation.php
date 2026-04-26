@@ -49,6 +49,8 @@ class Reservation
     #[Assert\NotBlank(
         message: 'Reservation time cannot be empty',
     )]
+    #[Assert\GreaterThanOrEqual('today', message: 'Date cannot be in the past.')]
+    #[Assert\LessThanOrEqual('today +30 days', message: 'Date must be within 30 days.')]
     private ?\DateTime $Time_slot = null;
 
     #[ORM\Column]
@@ -61,6 +63,7 @@ class Reservation
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Type('string')]
+    #[Assert\Length(max: 500, maxMessage: 'Special request cannot be over 500 characters')]
     private ?string $Special_requests = null;
 
     #[ORM\Column]

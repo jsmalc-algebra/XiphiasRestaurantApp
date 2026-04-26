@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -19,9 +21,19 @@ class ReservationsType extends AbstractType
             ->add('Full_name')
             ->add('email')
             ->add('Phone_number')
-            ->add('date')
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'),
+                    'max' => (new \DateTime('+30 days'))->format('Y-m-d'),
+                ]
+            ])
             ->add('private_dining')
-            ->add('Time_slot')
+            ->add('Time_slot', ChoiceType::class, [
+                'choices' => $this->generateTimeSlots(),
+                'placeholder' => 'Select a time slot',
+                'required' => true,
+            ])
             ->add('Party_size', IntegerType::class, [
                 'constraints' => [
                     new Range(min: 1, max: 10)
@@ -57,5 +69,19 @@ class ReservationsType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Reservation::class,
         ]);
+    }
+
+    private function generateTimeSlots(): array
+    {
+        $slots = [];
+        $start = strtotime('12:00');
+        $end = strtotime('21:00');
+
+        for ($time = $start; $time <= $end; $time += 1800) {
+            $label = date('H:i', $time);
+            $slots[$label] = $label;
+        }
+
+        return $slots;
     }
 }

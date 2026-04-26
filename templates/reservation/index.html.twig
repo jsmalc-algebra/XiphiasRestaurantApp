@@ -1,6 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <style>
+        .form-check{display: none}
+    </style>
+{% endblock %}
+
 {% block title %}Reservation form{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dateInput = document.getElementById('reservations_date');
+            const privateDining = document.getElementById('reservations_private_dining');
+
+            if (!dateInput || !privateDining) return;
+
+            const privateDiningWrapper = privateDining.closest('div');
+
+            function isFridayOrSaturday(dateStr) {
+                if (!dateStr) return false;
+                const day = new Date(dateStr).getDay();
+                return day === 5 || day === 6;
+            }
+
+            function togglePrivateDining() {
+                const show = isFridayOrSaturday(dateInput.value);
+                privateDiningWrapper.style.display = show ? 'block' : 'none';
+
+                if (!show) {
+                    privateDining.checked = false;
+                }
+            }
+
+            dateInput.addEventListener('change', togglePrivateDining);
+            togglePrivateDining();
+        });
+    </script>
+{% endblock %}
 
 {% block body %}
     <h1>Please type in your reservation info</h1>
