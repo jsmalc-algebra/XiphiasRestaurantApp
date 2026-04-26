@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -15,31 +16,58 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(
+        message: 'Name cannot be empty',
+    )]
+    #[Assert\Type('string')]
     private ?string $Full_name = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(
+        message: 'Email cannot be empty',
+    )]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
+    #[Assert\Type('string')]
     private ?string $email = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(
+        message: 'Phone number cannot be empty',
+    )]
+    #[Assert\Type('string')]
     private ?string $Phone_number = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(
+        message: 'Reservation date cannot be empty',
+    )]
     private ?\DateTime $date = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank(
+        message: 'Reservation time cannot be empty',
+    )]
     private ?\DateTime $Time_slot = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(
+        message: 'Party size cannot be empty',
+    )]
+    #[Assert\Type('integer')]
+    #[Assert\Positive]
     private ?int $Party_size = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Type('string')]
     private ?string $Special_requests = null;
 
     #[ORM\Column]
     private ?bool $private_dining = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $Reservation_status = null;
+    private string $Reservation_status = 'pending';
 
     public function getId(): ?int
     {
