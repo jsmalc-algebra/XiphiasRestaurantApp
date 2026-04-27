@@ -72,6 +72,16 @@ class Reservation
     #[ORM\Column(length: 20)]
     private string $Reservation_status = 'pending';
 
+    #[ORM\Column(length: 8)]
+    private ?string $Reference_code = null;
+
+
+    public function __construct()
+    {
+        $this->Reference_code = 'LM-'.$this->generateCode();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -183,5 +193,29 @@ class Reservation
         $this->Reservation_status = $Reservation_status;
 
         return $this;
+    }
+
+    public function getReferenceCode(): ?string
+    {
+        return $this->Reference_code;
+    }
+
+    public function setReferenceCode(string $Reference_code): static
+    {
+        $this->Reference_code = $Reference_code;
+
+        return $this;
+    }
+
+    private function generateCode(): string
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $code = '';
+
+        for ($i = 0; $i < 5; $i++) {
+            $code .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        return $code;
     }
 }
