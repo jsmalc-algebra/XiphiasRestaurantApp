@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Range;
 
@@ -41,6 +42,11 @@ class ReservationsType extends AbstractType
             ])
             ->add('Special_requests')
         ;
+
+        $builder->get('Time_slot')->addModelTransformer(new CallbackTransformer(
+            fn($dateTime) => $dateTime?->format('H:i'),
+            fn($string) => $string ? new \DateTime($string) : null
+        ));
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $data = $event->getData();

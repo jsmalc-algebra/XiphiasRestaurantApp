@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Reservation details {% endblock %}
+
+{% block body %}
+    <h1>{{ reservation.referenceCode }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Full name</th>
+                <td>{{ reservation.fullName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ reservation.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone number</th>
+                <td>{{ reservation.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>Reservation date</th>
+                <td>{{ reservation.date|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Time slot</th>
+                <td>{{ reservation.timeSlot|date('H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Party size</th>
+                <td>{{ reservation.partySize }}</td>
+            </tr>
+            <tr>
+                <th>Special request</th>
+                <td>{{ reservation.specialRequests }}</td>
+            </tr>
+            <tr>
+                <th>Private Dining</th>
+                <td>{{ reservation.privateDining ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Reservation status</th>
+                <td>{{ reservation.reservationStatus }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
