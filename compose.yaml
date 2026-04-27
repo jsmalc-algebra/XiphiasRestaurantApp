@@ -15,7 +15,12 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-    command: bash -c "rm -f .env.local && apache2-foreground"
+    command: >
+      bash -c "
+        php bin/console doctrine:migrations:migrate --no-interaction &&
+        php bin/console doctrine:fixtures:load --no-interaction &&
+        apache2-foreground
+      "
 
   db:
     image: mysql:8.0
