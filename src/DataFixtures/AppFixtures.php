@@ -20,6 +20,7 @@ class AppFixtures extends Fixture
         $reservation1->setSpecialRequests(null);
         $reservation1->setPrivateDining(false);
         $reservation1->setReservationStatus('Confirmed');
+        $reservation1->setReferenceCode('LM-6BTTW');
         $manager->persist($reservation1);
 
         $reservation2 = new Reservation();
@@ -32,6 +33,7 @@ class AppFixtures extends Fixture
         $reservation2->setSpecialRequests('Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet.');
         $reservation2->setPrivateDining(false);
         $reservation2->setReservationStatus('Completed');
+        $reservation2->setReferenceCode('LM-90V73');
         $manager->persist($reservation2);
 
         $reservation3 = new Reservation();
@@ -44,6 +46,7 @@ class AppFixtures extends Fixture
         $reservation3->setSpecialRequests(null);
         $reservation3->setPrivateDining(false);
         $reservation3->setReservationStatus('Completed');
+        $reservation3->setReferenceCode('LM-4OK22');
         $manager->persist($reservation3);
 
         $reservation4 = new Reservation();
@@ -56,6 +59,7 @@ class AppFixtures extends Fixture
         $reservation4->setSpecialRequests(null);
         $reservation4->setPrivateDining(false);
         $reservation4->setReservationStatus('Pending');
+        $reservation4->setReferenceCode('LM-1DJLP');
         $manager->persist($reservation4);
 
         $reservation5 = new Reservation();
@@ -68,6 +72,7 @@ class AppFixtures extends Fixture
         $reservation5->setSpecialRequests(null);
         $reservation5->setPrivateDining(false);
         $reservation5->setReservationStatus('Confirmed');
+        $reservation5->setReferenceCode('LM-299TZ');
         $manager->persist($reservation5);
 
         $reservation1 = new Reservation();
@@ -80,6 +85,7 @@ class AppFixtures extends Fixture
         $reservation1->setSpecialRequests(null);
         $reservation1->setPrivateDining(true);
         $reservation1->setReservationStatus('Pending');
+        $reservation1->setReferenceCode('LM-7COF0');
         $manager->persist($reservation1);
 
         $reservation2 = new Reservation();
@@ -92,6 +98,7 @@ class AppFixtures extends Fixture
         $reservation2->setSpecialRequests('Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.');
         $reservation2->setPrivateDining(true);
         $reservation2->setReservationStatus('Cancelled');
+        $reservation2->setReferenceCode('LM-XZHJF');
         $manager->persist($reservation2);
 
         $reservation3 = new Reservation();
@@ -104,6 +111,7 @@ class AppFixtures extends Fixture
         $reservation3->setSpecialRequests(null);
         $reservation3->setPrivateDining(true);
         $reservation3->setReservationStatus('Pending');
+        $reservation3->setReferenceCode('LM-75MXT');
         $manager->persist($reservation3);
 
         $reservation4 = new Reservation();
@@ -116,6 +124,7 @@ class AppFixtures extends Fixture
         $reservation4->setSpecialRequests(null);
         $reservation4->setPrivateDining(true);
         $reservation4->setReservationStatus('Cancelled');
+        $reservation4->setReferenceCode('LM-IKJ1S');
         $manager->persist($reservation4);
 
         $reservation5 = new Reservation();
@@ -128,6 +137,7 @@ class AppFixtures extends Fixture
         $reservation5->setSpecialRequests(null);
         $reservation5->setPrivateDining(true);
         $reservation5->setReservationStatus('Completed');
+        $reservation5->setReferenceCode('LM-AVHHA');
         $manager->persist($reservation5);
 
 
