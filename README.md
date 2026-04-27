@@ -26,6 +26,8 @@ You can also access the reservation form via http://localhost/reserve, as well a
 Due to it being previously mentioned that the kitchen closes at 21 and the restaurant as a whole at 22 when setting limits for private dining events I gave them the same last reservatiuon slot at 21 as I belived that the same reason why regular reservations are cut off at 21 is valid for private dining as well. To put it into more lamens terms I understood it as you are free to mingle until closing time if your timeslot allows it, but you cannot enter at or near to closing time
 
 • If something doesn't work perfectly, say so. We'd rather know about it than discover it ourselves.
+This is a potentially fatal issue I attempted testing but could not figure out if the fault lies with my machine/docker or the code itself, however when doing final tests on a fresh run it seemed that while the db container did correctly assign it's enums, it did not actually use them as stated which can lead to the web app being fully bricked as it was made with the enums working properly in mind.
+
 I have not fulliflled everything given in this task most of which are:
 When booking reservations there is no checking for public or prvate dining if the timeslot is full.
 When making reference codes there is no logic which checks for uniqness, simply random generation
