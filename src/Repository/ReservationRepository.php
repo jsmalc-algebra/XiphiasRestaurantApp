@@ -16,6 +16,26 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+
+    public function findFiltered(string $order, ?\DateTime $date, ?string $status): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        if ($date) {
+            $qb->andWhere('r.date = :date')
+                ->setParameter('date', $date);
+        }
+
+        if ($status) {
+            $qb->andWhere('r.Reservation_status = :status')
+                ->setParameter('status', $status);
+        }
+
+        $qb->orderBy('r.date', $order)
+            ->addOrderBy('r.Time_slot', $order);
+
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */
