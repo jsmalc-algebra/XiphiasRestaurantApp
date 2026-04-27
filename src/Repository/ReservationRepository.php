@@ -46,6 +46,30 @@ class ReservationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getSlotGuestTotals(): array
+    {
+        $results = $this->createQueryBuilder('r')
+            ->select('r.date, r.Time_slot, r.private_dining, SUM(r.Party_size) as total, COUNT(r.id) as reservationCount')
+            ->groupBy('r.date, r.Time_slot, r.private_dining')
+            ->getQuery()
+            ->getResult();
+
+        $map = [];
+        foreach ($results as $row) {
+            $key = $row['date']->format('Y-m-d') . '_' . $row['Time_slot']->format('H:i');
+            if ($row['private_dining']) {
+                $map[$key]['private'] = [
+                    'total' => (int) $row['total'],
+                    'count' => (int) $row['reservationCount'],
+                ];
+            } else {
+                $map[$key]['regular'] = (int) $row['total'];
+            }
+        }
+
+        return $map;
+    }
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

@@ -34,7 +34,18 @@
 
         <tbody>
             {% for reservation in reservations %}
-                <tr>
+                {% set slotKey = reservation.date|date('Y-m-d') ~ '_' ~ reservation.timeSlot|date('H:i') %}
+                {% set slotData = slotTotals[slotKey] ?? {} %}
+
+                {% if reservation.privateDining %}
+                    {% set rowClass = slotData.private is defined ? 'table-danger' : '' %}
+
+                {% else %}
+                    {% set rowClass = slotData.regular is defined and slotData.regular >= 20 ? 'table-danger' : '' %}
+
+                {% endif %}
+
+                <tr class="{{ rowClass }}">
                     <td>{{ reservation.referenceCode }}</td>
                     <td>{{ reservation.fullName }}</td>
                     <td>{{ reservation.date|date('d/m/Y') }}</td>

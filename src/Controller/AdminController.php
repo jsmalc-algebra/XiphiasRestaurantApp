@@ -30,6 +30,7 @@ final class AdminController extends AbstractController
             'filterForm' => $form,
             'totalGuests' => $repository->countGuestsForDate($filterDate),
             'guestDate' => $filterDate,
+            'slotTotals' => $repository->getSlotGuestTotals(),
         ]);
     }
 }
