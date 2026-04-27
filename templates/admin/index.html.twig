@@ -41,7 +41,7 @@
                     {% set rowClass = slotData.private is defined ? 'table-danger' : '' %}
 
                 {% else %}
-                    {% set rowClass = slotData.regular is defined and slotData.regular >= 20 ? 'table-danger' : '' %}
+                    {% set rowClass = slotData.regular is defined and slotData.regular >= 20 ? 'table-warning' : '' %}
 
                 {% endif %}
 
