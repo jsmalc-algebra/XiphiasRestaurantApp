@@ -1,10 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <style>
-        .form-check{display: none}
-    </style>
-{% endblock %}
 
 {% block title %}Reservation form{% endblock %}
 
@@ -13,28 +8,46 @@
         document.addEventListener('DOMContentLoaded', function () {
             const dateInput = document.getElementById('reservations_date');
             const privateDining = document.getElementById('reservations_private_dining');
+            const timeSlotSelect = document.getElementById('reservations_Time_slot');
+            const privateDiningWrapper = document.querySelector('.form-check');
+            const partySizeInput = document.getElementById('reservations_Party_size');
 
-            if (!dateInput || !privateDining) return;
+            const allTimeSlots = Array.from(timeSlotSelect.options).slice(1);
 
-            const privateDiningWrapper = privateDining.closest('div');
+            partySizeInput.min = 1;
+            partySizeInput.max = 10;
 
-            function isFridayOrSaturday(dateStr) {
-                if (!dateStr) return false;
-                const day = new Date(dateStr).getDay();
-                return day === 5 || day === 6;
-            }
 
-            function togglePrivateDining() {
-                const show = isFridayOrSaturday(dateInput.value);
-                privateDiningWrapper.style.display = show ? 'block' : 'none';
+            dateInput.addEventListener('change', function () {
+                const day = new Date(dateInput.value).getDay();
+                const isWeekend = day === 5 || day === 6;
+                privateDiningWrapper.style.display = isWeekend ? 'block' : 'none';
+                if (!isWeekend) privateDining.checked = false;
+            });
 
-                if (!show) {
-                    privateDining.checked = false;
+
+            privateDining.addEventListener('change', function () {
+                timeSlotSelect.innerHTML = '<option value="">Select a time slot</option>';
+                allTimeSlots.forEach(opt => {
+                    const hour = parseInt(opt.value.split(':')[0]);
+                    if (!privateDining.checked || hour >= 18) {
+                        timeSlotSelect.appendChild(opt.cloneNode(true));
+                    }
+                });
+            });
+
+            privateDining.addEventListener('change', function () {
+                if (privateDining.checked) {
+                    partySizeInput.min = 6;
+                    partySizeInput.max = 12;
+                } else {
+                    partySizeInput.min = 1;
+                    partySizeInput.max = 10;
                 }
-            }
+                partySizeInput.value = '';
+            });
 
-            dateInput.addEventListener('change', togglePrivateDining);
-            togglePrivateDining();
+            privateDiningWrapper.style.display = 'none';
         });
     </script>
 {% endblock %}
