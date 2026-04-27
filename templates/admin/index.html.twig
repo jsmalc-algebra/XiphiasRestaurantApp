@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}admin panel{% endblock %}
+
+{% block body %}
+    <h1>La Maison admin panel</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reference code</th>
+                <th>Guest name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Party size</th>
+                <th>Status</th>
+                <th>Detail view</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.referenceCode }}</td>
+                    <td>{{ reservation.fullName }}</td>
+                    <td>{{ reservation.date|date('d/m/Y') }}</td>
+                    <td>{{ reservation.timeSlot|date('H:i') }}</td>
+                    <td>{{ reservation.partySize }}</td>
+                    <td>{{ reservation.reservationStatus }}</td>
+                    <td><a href="#">DETAILS</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
