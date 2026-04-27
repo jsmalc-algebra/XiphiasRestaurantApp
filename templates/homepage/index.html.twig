@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant homepage{% endblock %}
+
+{% block body %}
+    <div class="container bg-dark-subtle">
+        <h1>Welcome to the <i>La Maison</i> homepage</h1>
+
+        <h2>Please select if you wish to make a reservation or access the admin panel</h2>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <a href="{{ path('reservation_form') }}">
+                <button class="btn btn-success" type="button">Make reservation</button>
+            </a>
+            <a href="{{ path('app_admin')}}">
+                <button class="btn btn-danger" type="button">Admin panel</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}

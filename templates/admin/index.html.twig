@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}admin panel{% endblock %}
+
+{% block body %}
+    <h1>La Maison admin panel</h1>
+
+    <div class="container bg-danger">
+        <h2>Total guests on {{ guestDate|date('d/m/Y') }}: {{ totalGuests }}</h2>
+        {{ form_start(filterForm) }}
+        <div class="row g-3 align-items-end">
+            <div class="col-auto">{{ form_row(filterForm.order) }}</div>
+            <div class="col-auto">{{ form_row(filterForm.date) }}</div>
+            <div class="col-auto">{{ form_row(filterForm.status) }}</div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-light mb-3">Apply</button>
+            </div>
+        </div>
+        {{ form_end(filterForm) }}
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reference code</th>
+                <th>Guest name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Party size</th>
+                <th>Status</th>
+                <th>Detail view</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for reservation in reservations %}
+                {% set slotKey = reservation.date|date('Y-m-d') ~ '_' ~ reservation.timeSlot|date('H:i') %}
+                {% set slotData = slotTotals[slotKey] ?? {} %}
+
+                {% if reservation.privateDining %}
+                    {% set rowClass = slotData.private is defined ? 'table-danger' : '' %}
+
+                {% else %}
+                    {% set rowClass = slotData.regular is defined and slotData.regular >= 20 ? 'table-warning' : '' %}
+
+                {% endif %}
+
+                <tr class="{{ rowClass }}">
+                    <td>{{ reservation.referenceCode }}</td>
+                    <td>{{ reservation.fullName }}</td>
+                    <td>{{ reservation.date|date('d/m/Y') }}</td>
+                    <td>{{ reservation.timeSlot|date('H:i') }}</td>
+                    <td>{{ reservation.partySize }}</td>
+                    <td>{{ reservation.reservationStatus }}</td>
+                    <td><a href="{{ path('admin_reservation_show', { id: reservation.id }) }}">DETAILS</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

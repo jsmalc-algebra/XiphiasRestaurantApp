@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Reservation form{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dateInput = document.getElementById('reservations_date');
+            const privateDining = document.getElementById('reservations_private_dining');
+            const timeSlotSelect = document.getElementById('reservations_Time_slot');
+            const privateDiningWrapper = document.querySelector('.form-check');
+            const partySizeInput = document.getElementById('reservations_Party_size');
+
+            const allTimeSlots = Array.from(timeSlotSelect.options).slice(1);
+
+            partySizeInput.min = 1;
+            partySizeInput.max = 10;
+
+
+            dateInput.addEventListener('change', function () {
+                const day = new Date(dateInput.value).getDay();
+                const isWeekend = day === 5 || day === 6;
+                privateDiningWrapper.style.display = isWeekend ? 'block' : 'none';
+                if (!isWeekend) privateDining.checked = false;
+            });
+
+
+            privateDining.addEventListener('change', function () {
+                timeSlotSelect.innerHTML = '<option value="">Select a time slot</option>';
+                allTimeSlots.forEach(opt => {
+                    const hour = parseInt(opt.value.split(':')[0]);
+                    if (!privateDining.checked || hour >= 18) {
+                        timeSlotSelect.appendChild(opt.cloneNode(true));
+                    }
+                });
+            });
+
+            privateDining.addEventListener('change', function () {
+                if (privateDining.checked) {
+                    partySizeInput.min = 6;
+                    partySizeInput.max = 12;
+                } else {
+                    partySizeInput.min = 1;
+                    partySizeInput.max = 10;
+                }
+                partySizeInput.value = '';
+            });
+
+            privateDiningWrapper.style.display = 'none';
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <h1>Please type in your reservation info</h1>
+    <div class="bg-success rounded-3 p-4 mt-4 justify-content-start">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-info w-100 mt-3">Submit</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
