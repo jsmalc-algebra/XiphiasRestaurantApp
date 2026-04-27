@@ -36,6 +36,16 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function countGuestsForDate(\DateTime $date): int
+    {
+        return (int) $this->createQueryBuilder('r')
+            ->select('SUM(r.Party_size)')
+            ->where('r.date = :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

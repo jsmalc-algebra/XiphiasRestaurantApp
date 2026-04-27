@@ -6,6 +6,7 @@
     <h1>La Maison admin panel</h1>
 
     <div class="container bg-danger">
+        <h2>Total guests on {{ guestDate|date('d/m/Y') }}: {{ totalGuests }}</h2>
         {{ form_start(filterForm) }}
         <div class="row g-3 align-items-end">
             <div class="col-auto">{{ form_row(filterForm.order) }}</div>

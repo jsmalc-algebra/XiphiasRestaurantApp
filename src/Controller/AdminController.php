@@ -23,10 +23,13 @@ final class AdminController extends AbstractController
             $data['date'] ?? null,
             $data['status'] ?? null
         );
+        $filterDate = $data['date'] ?? new \DateTime('today');
 
         return $this->render('admin/index.html.twig', [
             'reservations' => $reservations,
             'filterForm' => $form,
+            'totalGuests' => $repository->countGuestsForDate($filterDate),
+            'guestDate' => $filterDate,
         ]);
     }
 }
