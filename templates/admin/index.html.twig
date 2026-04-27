@@ -52,7 +52,7 @@
                     <td>{{ reservation.timeSlot|date('H:i') }}</td>
                     <td>{{ reservation.partySize }}</td>
                     <td>{{ reservation.reservationStatus }}</td>
-                    <td><a href="#">DETAILS</a></td>
+                    <td><a href="{{ path('admin_reservation_show', { id: reservation.id }) }}">DETAILS</a></td>
                 </tr>
             {% endfor %}
         </tbody>

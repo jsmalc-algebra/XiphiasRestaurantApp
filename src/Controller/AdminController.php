@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Reservation;
 use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Form\ReservationFilterType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class AdminController extends AbstractController
 {
@@ -32,5 +34,19 @@ final class AdminController extends AbstractController
             'guestDate' => $filterDate,
             'slotTotals' => $repository->getSlotGuestTotals(),
         ]);
+    }
+
+    #[Route('/admin/{id}', name: 'admin_reservation_show')]
+    public function show(ReservationRepository $repository,$id): Response {
+        $reservation = $repository->findOneBy(['id' => $id]);
+
+        return $this->render('admin/show.html.twig', [
+            'reservation' => $reservation,
+        ]);
+    }
+
+    #[Route('/admin/{id}/edit', name: 'admin_reservation_edit')]
+    public function edit(Request $request,Reservation $reservation, EntityManagerInterface $manager): Response {
+        
     }
 }
